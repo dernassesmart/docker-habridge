@@ -27,9 +27,12 @@ RUN \
     "https://github.com/bwssytems/ha-bridge/releases/download/${HABRIDGE_RELEASE}/ha-bridge-${HABRIDGE_RELEASE:1}.jar" && \
   printf "Linuxserver.io version: ${VERSION}\nBuild-date: ${BUILD_DATE}" > /build_version
 
+# Grant java the capability to bind to privileged ports
+RUN setcap 'cap_net_bind_service=+ep' /usr/lib/jvm/java-1.8-openjdk/bin/java
+
 # copy local files
 COPY root/ /
 
 # ports and volumes
-EXPOSE 8080
+EXPOSE 80
 VOLUME /config
